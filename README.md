@@ -3,6 +3,7 @@
 **A system for generating GPG keys on an air-gapped machine and loading them onto multiple YubiKey hardware tokens, taking backup on encrypted flash drive and a paper-key**
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/iayanpahwa/YubiGPG)](https://github.com/iayanpahwa/YubiGPG/releases/latest)
 
 YubiGPG is a semi-vibe-coded project which gives you a complete, scripted and an interactive workflow to generate a GPG (GNU Privacy Guard) master key in the most secure environment possible — an air-gapped Tails OS machine — and then distribute your subkeys across three YubiKey hardware tokens. After that, a single script configures your daily macOS or Linux machine to use the YubiKey for GPG signing, encryption, and SSH authentication.
 
@@ -230,14 +231,35 @@ Gather everything before you start. You cannot pause mid-session on an air-gappe
 
 Phase 1 happens on a normal networked machine (your daily computer). You need internet access for this phase.
 
-### Step 1: Clone or Download YubiGPG
+### Step 1: Download the gpg-kit
+
+The easiest way is to grab the latest release — a pre-packaged archive ready to copy straight to your transfer USB:
+
+1. Go to the [latest release](https://github.com/iayanpahwa/YubiGPG/releases/latest)
+2. Download `gpg-kit-v1.0.0.tar.gz`
+3. **Verify before use** (do not skip this):
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YubiGPG.git
-cd YubiGPG
+# Verify the checksum
+shasum -a 256 -c gpg-kit-v1.0.0.tar.gz.sha256
+
+# Verify the GPG signature (import the maintainer's public key first)
+gpg --verify gpg-kit-v1.0.0.tar.gz.asc gpg-kit-v1.0.0.tar.gz
 ```
 
-Or download a ZIP from GitHub and extract it.
+4. Extract the archive:
+
+```bash
+tar -xzf gpg-kit-v1.0.0.tar.gz
+# You now have a gpg-kit/ folder — this is what goes on the USB
+```
+
+Alternatively, clone the repo directly:
+
+```bash
+git clone https://github.com/iayanpahwa/YubiGPG.git
+cd YubiGPG
+```
 
 ### Step 2: Download and Verify Tails OS
 
@@ -251,13 +273,25 @@ Follow the official Tails installation instructions. On macOS, Tails provides a 
 
 The Tails boot USB will be reformatted during this process. Do not use a USB that has data you need to keep. Set a sudo / administrator password during boot.
 
-### Step 4: Copy the YubiGPG Kit to the Transfer USB
+### Step 4: Copy the gpg-kit to the Transfer USB
 
-Insert a separate USB drive (not the Tails boot USB — a different one). Format it as FAT32 or exFAT so Tails can read it. Copy the entire YubiGPG directory onto it:
+Insert a separate USB drive (not the Tails boot USB — a different one). Format it as FAT32 or exFAT so Tails can read it.
+
+**If you downloaded the release archive**, the extracted `gpg-kit/` folder is already structured correctly — just copy it to the USB:
 
 ```bash
-# On macOS, find the USB mount point (usually /Volumes/USBNAME)
-cp -r /path/to/YubiGPG /Volumes/YOUR_USB/gpg-kit 
+# On macOS
+cp -r gpg-kit/ /Volumes/YOUR_USB/gpg-kit
+
+# On Linux
+cp -r gpg-kit/ /media/YOUR_USERNAME/USBNAME/gpg-kit
+```
+
+**If you cloned the repo**, copy the repo contents into a `gpg-kit/` folder on the USB:
+
+```bash
+# On macOS
+cp -r /path/to/YubiGPG /Volumes/YOUR_USB/gpg-kit
 
 # On Linux
 cp -r /path/to/YubiGPG /media/YOUR_USERNAME/USBNAME/gpg-kit
