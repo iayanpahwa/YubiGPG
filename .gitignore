@@ -1,3 +1,6 @@
+# Local context — not for repo
+context.md
+
 # GPG key material — never commit these
 *.asc
 *.gpg
