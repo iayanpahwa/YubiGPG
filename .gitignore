@@ -1,0 +1,24 @@
+# GPG key material — never commit these
+*.asc
+*.gpg
+*.key
+*.pem
+gnupg-full-backup/
+
+# Paperkey output — sensitive, print and destroy
+paperkey-raw.txt
+PAPER-BACKUP-PRINT-ME.txt
+
+# Key ID file — specific to your key
+keyid.txt
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverrideFile
+
+# Editors
+.vscode/
+*.swp
+*~
+.idea/
