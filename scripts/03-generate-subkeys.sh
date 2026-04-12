@@ -90,17 +90,17 @@ echo ""
 #     review who has your public key and re-distribute the updated one.
 #   - It signals to others that the key is actively maintained.
 #
-# RECOMMENDATION: 7 years is a good balance. Long enough that you
-# aren't renewing constantly, short enough to bound exposure.
+# RECOMMENDATION: 1 year enforces annual key hygiene. Short enough to
+# bound exposure if a subkey is compromised, long enough to be practical.
 # You can always extend the expiry BEFORE it lapses using the master key.
 # --- Get expiry ---
 echo -e "${YELLOW}How long should subkeys be valid?${NC}"
 echo ""
 echo "  Examples: 1y, 2y, 5y, 7y, 10y"
-echo "  Recommendation for paranoid mode: 7y"
+echo "  Recommendation: 1y"
 echo ""
-read -p "  Subkey expiry [7y]: " EXPIRY
-EXPIRY=${EXPIRY:-7y}  # Default to 7 years if the user just presses Enter
+read -p "  Subkey expiry [1y]: " EXPIRY
+EXPIRY=${EXPIRY:-1y}  # Default to 1 year if the user just presses Enter
 echo ""
 echo -e "${GREEN}  ✓ Subkey expiry: $EXPIRY${NC}"
 echo ""
@@ -152,7 +152,7 @@ echo -e "  ${BOLD}3.${NC} Select: ${CYAN}(1) Curve 25519${NC}"
 echo ""
 
 # Enter the expiry the user chose above. GPG accepts formats like
-# "7y" (7 years), "365d" (365 days), or a specific date "2031-01-01".
+# "1y" (1 year), "365d" (365 days), or a specific date "2026-01-01".
 echo -e "  ${BOLD}4.${NC} Expiry: ${CYAN}$EXPIRY${NC}"
 echo ""
 

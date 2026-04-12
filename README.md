@@ -124,7 +124,7 @@ After completing all four phases, you will have:
 
 **Key hierarchy:**
 - 1 master key [C] (ed25519, no expiry) — certify only, stays air-gapped forever
-- 3 subkeys (Sign [S] ed25519, Encrypt [E] cv25519, Authenticate [A] ed25519) — all 7-year expiry, all loaded on all 3 YubiKeys with mandatory touch policy
+- 3 subkeys (Sign [S] ed25519, Encrypt [E] cv25519, Authenticate [A] ed25519) — all 1-year expiry, all loaded on all 3 YubiKeys with mandatory touch policy
 
 ---
 
@@ -155,6 +155,39 @@ Gather everything before you start. You cannot pause mid-session on an air-gappe
 - A USB hub, in case your machine has limited USB ports during the Tails session (you may need to plug in the Kit USB, up to 3 YubiKeys in sequence, and up to 2 backup USBs).
 - A USB-A to USB-C adapter, if your YubiKeys have USB-C connectors and your Tails machine only has USB-A ports (or vice versa).
 
+### Check Your YubiKey Firmware Before You Begin
+
+Before generating any keys, check which firmware version your YubiKey is running — this determines which key algorithm you can use.
+
+**How to check (on any networked machine before the Tails session):**
+
+```bash
+# Using YubiKey Manager CLI:
+ykman info
+
+# Or via Yubico Authenticator (GUI): Devices → select your key → firmware version shown
+
+# Or via GPG after inserting the YubiKey:
+gpg --card-status | grep Version
+```
+
+**ed25519 vs RSA — which should you pick?**
+
+| Algorithm | Firmware required | Key size | Speed | Notes |
+|-----------|-------------------|----------|-------|-------|
+| **ed25519 / cv25519** | **≥ 5.2.3** | 256-bit | Fast | Modern elliptic-curve. Default in these scripts. |
+| **RSA 4096** | Any YubiKey 5 | 4096-bit | Slower | Larger keys, but works on all firmware versions. |
+
+- **ed25519** is a modern elliptic-curve algorithm. A 256-bit ed25519 key offers roughly equivalent security to a 3072-bit RSA key, with faster operations and smaller key material. It is what these scripts generate by default.
+- **RSA 4096** is the traditional choice. Keys are larger and operations are slower, but it is universally supported and perfectly secure. Choose this if your firmware is below 5.2.3.
+
+**Decision:**
+
+- **Firmware ≥ 5.2.3** (all YubiKey 5 series purchased after 2019): use **ed25519/cv25519** — follow these scripts as written.
+- **Firmware < 5.2.3** (older hardware): use **RSA 4096** — when GPG prompts you to select a key type during scripts 02 and 03, choose RSA instead of Curve 25519 and enter `4096` as the key size.
+
+> If you are unsure or your hardware is old, replace it before starting. All current YubiKey 5 series ship with firmware well above 5.2.3. Purchase directly from [yubico.com](https://yubico.com).
+
 ---
 
 ## Key Architecture
@@ -174,7 +207,7 @@ Gather everything before you start. You cannot pause mid-session on an air-gappe
            |  Subkey [S]    |  |  Subkey [E]    |  |  Subkey [A]   |
            |  ed25519       |  |  cv25519       |  |  ed25519      |
            |  Sign          |  |  Encrypt       |  |  Authenticate |
-           |  7yr expiry    |  |  7yr expiry    |  |  7yr expiry   |
+           |  1yr expiry    |  |  1yr expiry    |  |  1yr expiry   |
            +----------------+  +----------------+  +---------------+
                     |                   |                   |
           +---------+---------+---------+---------+---------+
@@ -842,7 +875,7 @@ Plan: generate a new key pair from scratch when the subkeys expire.
 
 ### When to Run Phase 4
 
-- **Subkey expiry approaching**: Your subkeys expire 7 years after generation. GPG will warn you when expiry is within 6 months. Extending expiry requires the master key.
+- **Subkey expiry approaching**: Your subkeys expire 1 year after generation. GPG will warn you when expiry is within 6 months. Extending expiry requires the master key.
 - **Subkey compromised**: If you believe a subkey was exposed, revoke it and generate a new one.
 - **New YubiKey to load**: If you acquire a replacement YubiKey, load it via script 07.
 - **PIN change needed**: This can be done from the daily machine with `gpg --card-edit` — no Tails session required.
