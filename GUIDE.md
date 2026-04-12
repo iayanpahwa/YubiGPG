@@ -15,9 +15,9 @@ This guide walks you through the full YubiGPG workflow from start to finish: gen
 | Key | Algorithm | Expiry | Purpose |
 |---|---|---|---|
 | Master [C] | ed25519 | Never | Certify subkeys, manage trust hierarchy |
-| Signing [S] | ed25519 | 7 years | Git commits, software/binary signatures |
-| Encryption [E] | cv25519 | 7 years | Decrypt files encrypted to your public key |
-| Authentication [A] | ed25519 | 7 years | SSH into servers (replaces SSH keys) |
+| Signing [S] | ed25519 | 1 year | Git commits, software/binary signatures |
+| Encryption [E] | cv25519 | 1 year | Decrypt files encrypted to your public key |
+| Authentication [A] | ed25519 | 1 year | SSH into servers (replaces SSH keys) |
 
 ---
 

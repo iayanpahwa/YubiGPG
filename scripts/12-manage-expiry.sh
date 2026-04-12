@@ -82,7 +82,7 @@ echo ""
 # --- Choose action ---
 echo -e "${BOLD}What do you want to do?${NC}"
 echo ""
-echo "  1. EXTEND subkey expiry (e.g., another 7 years)"
+echo "  1. EXTEND subkey expiry (e.g., another 1 year)"
 echo "  2. MANUALLY EXPIRE a subkey (disable it, reversible)"
 echo "  3. REVOKE a subkey (permanent, cannot undo)"
 echo "  4. GENERATE NEW subkeys (replace old/revoked ones)"
