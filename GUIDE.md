@@ -164,6 +164,7 @@ gpg-restart    # alias that kills and relaunches gpg-agent
 | Forgot YubiKey PIN | Use admin PIN to reset user PIN. If admin locked: `ykman openpgp reset` (destroys keys on that card) |
 | Both LUKS USBs lost | Use paper backup (see `docs/PAPER-RECOVERY.md`) |
 | Forgot passphrase | **Unrecoverable.** All backups are useless without the passphrase. |
+| CRQC threat | No post-quantum support in current YubiKey + GnuPG. Long-lived encrypted data may be at risk if a Cryptographically Relevant Quantum Computer becomes viable. See [filippo.io/crqc-timeline](https://words.filippo.io/crqc-timeline). |
 
 ---
 
@@ -178,6 +179,7 @@ Encrypt to someone:  gpg -r THEIR_KEY_ID -e file.txt
 Decrypt:             gpg -d file.txt.gpg > file.txt
 SSH (just works):    ssh user@server
 SSH public key:      gpg --export-ssh-key YOUR_KEY_ID
+                     (Alternative: FIDO2 SSH via `ssh-keygen -t ed25519-sk` is simpler if SSH is your only goal)
 Card status:         gpg --card-status
 Restart agent:       gpg-restart  (alias from setup)
 List keys:           gpg-list     (alias from setup)

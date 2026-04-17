@@ -101,6 +101,7 @@ Being honest about the limits of this system:
 | Both LUKS USBs AND paper backup lost | If all three backup methods are gone, the master key is unrecoverable. Keep backups in different physical locations. |
 | User errors during key generation | Scripts have safety checks, but they cannot prevent all operator mistakes. Read each script prompt carefully. |
 | Rubber hose attack | If someone compels you to reveal your passphrase, this system does not help. |
+| Harvest-now-decrypt-later / CRQC | Current YubiKey firmware and GnuPG do not support post-quantum algorithms (e.g., ML-KEM, ML-DSA). If a Cryptographically Relevant Quantum Computer (CRQC) becomes available, encrypted data captured today could be decrypted retroactively. See [filippo.io/crqc-timeline](https://words.filippo.io/crqc-timeline) for the current threat assessment. |
 
 ---
 
@@ -524,6 +525,8 @@ A physical security measure where a computer has no network connections — no W
 
 ### Authentication Subkey [A]
 One of the three GPG subkeys generated in this project. The authentication subkey is used to prove your identity — specifically, to authenticate SSH sessions. Instead of generating a separate `~/.ssh/id_ed25519` key pair, your SSH clients use the authentication subkey stored on your YubiKey. This means SSH access to all your servers is protected by the YubiKey's hardware and PIN.
+
+**Alternative — FIDO2 SSH keys:** For many users, hardware-backed SSH via FIDO2 (`ssh-keygen -t ed25519-sk`) is simpler to set up and is natively supported by OpenSSH ≥ 8.2 and modern YubiKeys. If SSH is your primary use case and you do not need GPG signing or encryption, FIDO2 SSH may be a better fit. This guide uses GPG-for-SSH to keep everything on one key with one trust anchor.
 
 ### cv25519
 An elliptic-curve Diffie-Hellman algorithm used for encryption. "cv" stands for Curve25519, which is a well-analyzed, modern elliptic curve designed by cryptographer Daniel J. Bernstein. It is used for the encryption subkey [E] in this project. Note: signing and authentication use ed25519, while encryption uses cv25519 — these are related but different algorithms built on the same underlying curve.
@@ -1001,7 +1004,7 @@ Additional references:
 
 ## License
 
-Copyright 2024 YubiGPG Contributors
+Copyright 2026 YubiGPG Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at:
 
