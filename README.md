@@ -4,6 +4,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Release](https://img.shields.io/github/v/release/iayanpahwa/YubiGPG)](https://github.com/iayanpahwa/YubiGPG/releases/latest)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21340957.svg)](https://doi.org/10.5281/zenodo.21340957)
 
 YubiGPG is a semi-vibe-coded project which gives you a complete, scripted and an interactive workflow to generate a GPG (GNU Privacy Guard) master key in the most secure environment possible — an air-gapped Tails OS machine — and then distribute your subkeys across three YubiKey hardware tokens. After that, a single script configures your daily macOS or Linux machine to use the YubiKey for GPG signing, encryption, and SSH authentication.
 
