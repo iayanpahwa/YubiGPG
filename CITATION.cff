@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "YubiGPG"
+authors:
+  - family-names: "Pahwa"
+    given-names: "Ayan"
+    orcid: "https://orcid.org/0009-0001-7765-7735"
+version: "1.1.1"
+license: "Apache-2.0"
+repository-code: "https://github.com/iayanpahwa/YubiGPG"
+url: "https://github.com/iayanpahwa/YubiGPG"
